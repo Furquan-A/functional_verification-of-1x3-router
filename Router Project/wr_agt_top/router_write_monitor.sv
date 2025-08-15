@@ -13,6 +13,8 @@ extern function void connect_phase(uvm_phase phase);
 extern task run_phase(uvm phase);
 extern task collect_data;
 
+endclass
+
 
 function router_wr_monitor :: new(string name = "router_wr_monitor", uvm_component parent);
 super.new(name,parent);
