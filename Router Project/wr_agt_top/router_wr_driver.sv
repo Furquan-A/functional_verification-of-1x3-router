@@ -1,6 +1,7 @@
 class router_wr_driver extends uvm_driver #(router_wr_xtns);
 `uvm_component_utils(router_wr_driver)
 
+virtual router_if vif;
 function new (string name = "router_wr_driver", uvm_component parent);
 super.new(name,parent);
 endfunction
