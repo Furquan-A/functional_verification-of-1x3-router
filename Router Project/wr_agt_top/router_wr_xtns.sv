@@ -66,7 +66,7 @@ function void router_wr_xtns::post_randomize();
     payload_data[i] = $urandom_range(0, 255);
 
   // Calculate parity = XOR of header + payload
-  parity = header;
+  parity = 0 ^header;
   foreach (payload_data[i])
-    parity ^= payload_data[i];
+    parity = parity ^ payload_data[i];
 endfunction
