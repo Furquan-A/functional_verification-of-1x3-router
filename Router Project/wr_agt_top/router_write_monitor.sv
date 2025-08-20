@@ -19,7 +19,9 @@ endfunction
 
 function void router_wr_monitor :: build_phase(uvm_phase phase);
 super.build_phase(phase);
-ap = new("ap",this);
+if (!uvm_config_db#(wr_agent_config)::get(this, "", "wr_agent_config", m_cfg))
+  `uvm_fatal("MON_CFG", "wr_agent_config not found for monitor");
+monitor_port = new("monitor_port");
 endfunction
 
 function void router_wr_monitor :: connect_phase(uvm_phase phase);
