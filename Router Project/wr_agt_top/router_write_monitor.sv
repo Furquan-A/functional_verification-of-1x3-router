@@ -1,6 +1,6 @@
 class router_wr_monitor extends uvm_monitor;
 `uvm_component_utils(router_wr_monitor)
-uvm_analysis_port #(router_wr_xtns) ap;
+uvm_analysis_port #(router_wr_xtns) monitor_port;
 wr_agent_config m_cfg;
 router_wr_xtns mon_data;
 virtual router_if vif;
@@ -42,20 +42,17 @@ begin
 	@(vif.wmon_cb);
 	foreach(mon_data.payload_data[i])
 		begin 
-			wait(!vif.wmon_cb.busy)
-			mon_data.payload_data[i] = vif.mon_data.data_in;
-			@(vif.wmon_cb);
+		 wait(!vif.wmon_cb.busy)
+		mon_data.payload_data[i] = vif.wmon_cb.data_in;
+		@(vif.wmon_cb);
 		end 
-	
-	wait(!vif.wmon_cb.busy && vif.wmon_cb.pkt_valid)
+	wait(!vif.wmon_cb.busy && !vif.wmon_cb.pkt_valid)
 	mon_data.parity = vif.wmon_cb.data_in;
 	repeat(2)@(vif.wmon_cb);
 	mon_data.error = vif.wmon_cb.error;
-	
 	m_cfg.mon_data_count++;
-	
 	monitor_port.write(mon_data);
-end 
+end
 endtask
 
 
