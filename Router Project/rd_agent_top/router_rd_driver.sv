@@ -45,7 +45,7 @@ endtask
 task router_rd_driver :: send_to_dut;
 wait(vif.rdr_cb.valid_out)
 @(vif.rdr_cb);
-repeat(xtns.no_of_cycles);
+repeat(xtns.no_of_cycles)
 @(vif.rdr_cb);
 vif.rdr_cb.read_enb <= 1'b1;
 wait(!vif.rdr_cb.valid_out)
