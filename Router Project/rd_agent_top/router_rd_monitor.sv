@@ -58,4 +58,6 @@ foreach(xtns.payload_data[i])
 wait(!vif.rmon_cb.valid_out && vif.rmon_cb.read_enb)
 @(vif.rmon_cb);
 xtns.parity = vif.rmon_cb.parity;
+
+mon_ap.write(xtns);
 endtask
