@@ -1,53 +1,59 @@
-interface router_if(input bit clock);
-logic rst;
-logic pkt_valid;
-logic error;
-logic busy;
-logic [7:0] data_in;
-logic [7:0] data_out;
-logic valid_out;
-logic read_enb;
+interface router_if(input bit clk);
 
-// write driver from the write agent Clocking block 
-Clocking wdr_cb @(posedge clock);
-	default input#1 output #1;
+	logic [7:0] data_in;
+	logic [7:0] data_out;
+	logic  rst;
+	logic  error;
+	logic busy;
+	bit  read_enb;
+	logic  valid_out;
+	bit	  pkt_valid;
+
+//write driver
+
+clocking wdr_cb @ (posedge clk);
+	default input #1 output #1;
 	output data_in;
 	output pkt_valid;
-	output valid_out;
 	output rst;
 	input error;
 	input busy;
-endclocking: wdr_cb
+endclocking
 
-// clocking block for the rd driver 
+// read driver
 
-clocking rdr_cb @ (posedge clock);
+clocking rdr_cb @ (posedge clk);
 	default input #1 output #1;
+	output read_enb;//read driver mp
 	input valid_out;
-	output read_enb;
-endclocking: rdr_cb
+endclocking
 
-clocking wmon_cb @(posedge clock);
-	default input #1 output#1;
-	input data_in;
-	input pkt_valid;
-	input rst;
-	input error;
-	input busy;
-endclocking: wmon_cb
+clocking wmon_cb @ (posedge clk);
+        default input #1 output #1;
+        input data_in;
+        input pkt_valid;
+        input rst;
+        input error;
+        input busy;
+endclocking
 
-clocking rmon_cb @ (posedge clock(;
- default input #1 output #1;
- input read_enb;
-  input data_out;
- endclocking: rmon_cb
- 
- modport WDR_MP ( clocking wdr_cb);
- 
- modport RDR_MP ( clocking rdr_cb);
- 
- modport WMON_MP (clocking wmon_cb);
- 
- modport RMON_MP ( clocking rmon_cb);
- 
- endinterface 
+clocking rmon_cb @ (posedge clk);
+         default input #1 output #1;
+		input valid_out
+        input read_enb;
+        input data_out;
+endclocking
+
+
+modport WDR_MP (clocking wdr_cb);
+
+
+modport RDR_MP (clocking rdr_cb);
+
+
+modport WMON_MP (clocking wmon_cb);
+
+
+modport RMON_MP (clocking rmon_cb);
+
+endinterface
