@@ -3,7 +3,7 @@ class router_rd_driver extends uvm_driver #(router_rd_xtns);
 
 rd_agent_config m_cfg;
 virtual router_if vif;
-router_rd_xtns xtns;
+
 
 extern function new(string name = "router_rd_driver", uvm_component parent);
 extern function void build_phase(uvm_phase phase);
@@ -42,7 +42,7 @@ forever
 	end
 endtask 
 
-task router_rd_driver :: send_to_dut;
+task router_rd_driver :: send_to_dut(router_rd_xtns xtns);
 wait(vif.rdr_cb.valid_out)
 @(vif.rdr_cb);
 repeat(xtns.no_of_cycles)
@@ -50,5 +50,6 @@ repeat(xtns.no_of_cycles)
 vif.rdr_cb.read_enb <= 1'b1;
 wait(!vif.rdr_cb.valid_out)
 vif.rdr_cb.read_enb <= 1'b0;
+@(vif.rdr_cb);
 endtask
 

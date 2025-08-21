@@ -44,6 +44,24 @@ forever
 endtask 
 
 task router_rd_monitor :: collect_data();
+/*
+xtns = router_rd_xtns::type_id:;create("xtns");
+@(vif.rmon_cb);
+wait(vif.rmon_cb.read_enb)
+@(vif.rmon_cb);
+xtns.header= vif.rmon_cb.data_out;
+xtns.payload_data= new[xtns.header[7:2]];
+@(vif.rmon_cb);
+foreach(xtns.payload_data[i])
+	begin 
+		xtns.payload_data[i] = vif.rmon_cb.data_out;
+		@(vif.rmon_cb);
+	end 
+xtns.parity = vif.rmon_cb.data_out;
+@(vif.rmon_cb);
+`uvm_info("ROUTER_rd_MONITOR",$sfirmatf("printing from the monitor \n %s", xtns.sprint()),UVM_LOW)
+m_cfg.mon_data_count++;
+mon_ap.write(xtns);*/
 @(vif.rmon_cb);
 wait(vif.rmon_cb.valid_out && vif.rmon_cb.read_enb);
 xtns = router_rd_xtns :: type_id :: create("xtns");
