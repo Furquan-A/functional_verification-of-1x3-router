@@ -1,20 +1,95 @@
 class router_scoreboard extends uvm_scoreboard;
-`uvm_component_utils(router_scoreboard)
+  `uvm_component_utils(router_scoreboard)
 
-  // === Analysis exports for connecting from env ===
-uvm_analysis_port #(router_wr_xtns) wr_export; // from write agent write monitor 
-uvm_analysis_port #(router_rd_xtns) rd_export[3]; // from read agent read monitor 
+uvm_tlm_analysis_fifo #(router_rd_xtns) fifo_rdh[]; // it is dynamic because we have 3 dest monitors and the sb has to read the data from all the 3 monitors.
+uvm_tlm_analysis_fifo #(router_wr_xtns) fifo_wrh;
 
-  // === FIFOs to store packets for matching ===
-router_wr_xtns wr_q[$];//write side input queue
-router_rd_xtns rd_q[3][$];//read side output queue 
+router_rd_xtns rd_data;
+router_wr_xtns wr_data;
+router_rd_xtns read_cov_data;
+router_wr_xtns write_cov_data;
 
-function new (string name = " router_scoreboard" , uvm_component parent);
+function new( string name = "router_scoreboard", uvm_component parent);
 super.new(name,parent);
-wr_export = new("wr_export",this);
-foreach(rd_export[i])
-	begin 
-		rd_export[i] = new($sformatf("rd_export[%0d]",i),this);
-	end
 endfunction
 
+function void build_phase(uvm_phase phase);
+super.build_phase(phase);
+if(!uvm_config_db #(router_env_config) ::get("this","","router_env_config",env_cfg))
+`uvm_fatal("CONFIG","cannot get() the config")
+
+fifo_wrh = new("fifo_wrh",this);
+fifo_rdh = new[env_cfg.no_of_read_agents];// we have to know how many read monitors are present in the design 
+foreach(fifo_rdh[i])
+	begin 
+		fifo_rdh = new($sformatf("fifo_rdh[%0d]",i),this); // It is how we crate the handles for the dunamic types 
+	end 
+endfunction 
+
+task run_phase(uvm_phase phase ); // get the data from both the wr mon and rd mons using the get method 
+fork 
+	begin 
+		forever 
+				begin 
+					fifo_wrh.get(wr_data);
+					`uvm_info("WRITE SB","Write data",UVM_LOW)
+					wr_data.print;
+					write_cov_data = wr_data;
+					router_fcov1.sample();
+				end
+	end 
+	
+	begin 
+		forever
+				begin 
+					fork:A 
+							begin 
+								
+								fifo_rdh[0].get(rd_data);
+								`uvm_info("READ SB[0]","read_data",UVM_LOW)
+								check_data(rd_data);
+								read_cov_data=rd_data;
+								router_fcov2.sample();
+							end 
+						
+							begin 
+								fifo_rdh[1].get(rd_data);
+								`uvm_info("READ SB[1]","read_data",UVM_LOW)
+								check_data(rd_data);
+								read_cov_data=rd_data;
+								router_fcov2.sample();
+							end 
+							
+							begin 
+								fifo_rdh[2].get(rd_data);
+								`uvm_info("READ SB[2]","read_data",UVM_LOW)
+								check_data(rd_data);
+								read_cov_data=rd_data;
+								router_fcov2.sample();
+							end 
+					join_any
+					disable A;
+				end 
+	end 
+join 
+endtask 
+
+function void check_data(router_rd_xtns rd);
+	
+	if(wr_data.header == rd.header)
+		`uvm_info("SB","header matched successfully",UVM_LOW)
+	else
+	`uvm_error("SB","HEADER COMPARISION FAILED")
+	
+	if(wr_data.payload_data == rd.payload_data)
+		`uvm_info("SB","payload_data matched successfully",UVM_LOW)
+	else
+	`uvm_error("SB","payload_data COMPARISION FAILED")
+	
+	if(wr_data.parity == rd.parity)
+		`uvm_info("SB","parity matched successfully",UVM_LOW)
+	else
+	`uvm_error("SB","parity COMPARISION FAILED")
+	
+	data_verified_count++;
+endfunction
