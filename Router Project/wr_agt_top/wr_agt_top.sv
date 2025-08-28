@@ -14,5 +14,5 @@ endfunction
 
 function void wr_agt_top::build_phase(phase);
 super.build_phase(phase);
-agnth = wr_agent;type_id::create("agnth",this);
+agnth = wr_agent::type_id::create("agnth",this);
 endfunction

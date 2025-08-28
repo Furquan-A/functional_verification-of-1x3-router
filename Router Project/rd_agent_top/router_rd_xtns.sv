@@ -6,12 +6,13 @@ bit [7:0] payload_data[];
 bit [7:0] parity;
 rand bit [5:0]no_of_cycles;
 
-/*
+
 constraint C1 {header[1:0] inside {0,1,2};}
 constraint C2 {
 payload_data.size() == header[7:2];
 header[7:2] > 0;
 }
+/*
 constraint corner_max {
     header[7:2] == 63;
     header[1:0] == 2'b10;}

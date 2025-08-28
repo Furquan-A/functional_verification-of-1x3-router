@@ -6,11 +6,11 @@ class env extends uvm_env;
 	rd_agt_top ragt_top[];
 	
 	//virtual_sequencer v_seqr;
-	//scoreboard sb;
+	router_scoreboard sb;
 	
 	env_config env_cfg;
 	
-	extern function nre(string name = "env",uvm_component parent);
+	extern function new(string name = "env",uvm_component parent);
 	extern function void build_phase(uvm_phase phase);
 	
 endclass
@@ -30,7 +30,7 @@ if(!uvm_config_db #(env_config) :: get(this,"", "env_config",env_cfg))
 if (env_cfg.has_wagent)
 	begin 
 		wagt_top = new[env_cfg.no_of_agents];
-			foreach [wagt_top[i])
+			foreach (wagt_top[i])
 				begin
 					uvm_config_db #(wr_agent_config) :: set (this,$sformat("wagt_top[%0d]*",i),"wr_agent_config",env_cfg.wr_agt_cfg[i]);
 					wagt_top[i] = wr_agt_top::type_id::create($sformat("wagt_top[%0d]",i),this);
@@ -39,13 +39,17 @@ if (env_cfg.has_wagent)
 	
 	
 if(env_cfg.has_ragent)
-	brgin 
+	begin 
 		ragt_top = new[env_cfg.no_of_agents];
 			foreach(ragt_top[i])
 				begin
-					uvm_config_db#(rd_agt_config) :: set(this,$sformat("ragt_top[%0d]",i),"rd_agt_config",env_cfg.rd_agt_cfg[i]);
-					ragt_top[i] = rd_agt_top::type_id:;create($sformat("ragt_top[%0d]",i),this);
+					uvm_config_db#(rd_agt_config) :: set(this,$sformatf("ragt_top[%0d]",i),"rd_agt_config",env_cfg.rd_agt_cfg[i]);
+					ragt_top[i] = rd_agt_top::type_id::create($sformatf("ragt_top[%0d]",i),this);
 				end 
 	end 
+	
+if(env_cfg.has_scoreboard)
+	sb = router_scoreboard:: type_id::create("sb",this);
+
 	
 endfunction

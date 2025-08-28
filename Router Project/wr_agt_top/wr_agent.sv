@@ -18,7 +18,7 @@ class wr_agent extends uvm_agent;
     if (!uvm_config_db#(wr_agent_config)::get(this, "", "wr_agent_config", wr_agt_cfg))
       `uvm_fatal("CONFIG","cannot get wr_agt_cfg from config_db. Did you set it?")
 
-    // push cfg to all children of this agent
+    // push cfg to all children of this agent like driver, Monitor and sequencer 
     uvm_config_db#(wr_agent_config)::set(this, "*", "wr_agent_config", wr_agt_cfg);
 
     // analysis port proxy (optional)

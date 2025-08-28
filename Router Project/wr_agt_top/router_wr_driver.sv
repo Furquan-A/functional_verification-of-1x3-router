@@ -1,8 +1,9 @@
 class router_wr_driver extends uvm_driver #(router_wr_xtns);
 `uvm_component_utils(router_wr_driver)
-wr_agent_config m_cfg;
 
+wr_agent_config m_cfg; // Here you access all the fields you included inside the config class . like has_coverage
 virtual router_if vif;
+
 function new (string name = "router_wr_driver", uvm_component parent);
 super.new(name,parent);
 endfunction
@@ -15,7 +16,6 @@ endfunction
 
 function void connect_phase(uvm_phase phase);
 super.connect_phase(phase);
-if(vif == null && m_cfg.vif != null) begin 
 vif = m_cfg.vif;
 end 
 seq_item_port.connect(sequencer.seq_item_export);

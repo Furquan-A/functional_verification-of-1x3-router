@@ -37,12 +37,12 @@ endfunction
 
 function void build_phase(uvm_phase phase);
 super.build_phase(phase);
-if(!uvm_config_db #(router_env_config) ::get("this","","router_env_config",env_cfg))
+if(!uvm_config_db #(router_env_config) ::get(this,"","router_env_config",e_cfg))
 `uvm_fatal("CONFIG","cannot get() the config")
 router_fcov1 = new;
 router_fcov2 = new;
 fifo_wrh = new("fifo_wrh",this);
-fifo_rdh = new[env_cfg.no_of_read_agents];// we have to know how many read monitors are present in the design 
+fifo_rdh = new[env_cfg.no_of_rd_agents];// we have to know how many read monitors are present in the design 
 foreach(fifo_rdh[i])
 	begin 
 		fifo_rdh[i] = new($sformatf("fifo_rdh[%0d]",i),this); // It is how we crate the handles for the dunamic types 
@@ -122,7 +122,7 @@ function void report_phase(uvm_phase phase);
   $display("==== Write Port Coverage ====");
   router_fcov1.print();
   $display("==== Read Port Coverage ====");
-  router_fcov2_inst.print();
+  router_fcov2.print();
 endfunction
 
 endclass
