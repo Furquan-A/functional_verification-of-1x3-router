@@ -7,7 +7,7 @@ env_config e_cfg;
 router_wr_sequencer wr_seqrh[];
 router_rd_sequencer rd_seqrh[];
 
-extern function new(string name = "vbase_wr_seqs
+extern function new(string name = "vbase_wr_seqs");
 extern task body();
 
 endclass 
