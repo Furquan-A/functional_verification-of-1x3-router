@@ -1,7 +1,7 @@
 class router_wr_driver extends uvm_driver #(router_wr_xtns);
 `uvm_component_utils(router_wr_driver)
 
-wr_agent_config m_cfg; // Here you access all the fields you included inside the config class . like has_coverage
+wr_agt_config m_cfg; // Here you access all the fields you included inside the config class . like has_coverage
 virtual router_if vif;
 
 function new (string name = "router_wr_driver", uvm_component parent);
@@ -10,7 +10,7 @@ endfunction
 
 function void build_phase(uvm_phase phase);
 super.build_phase(phase);
-if(!uvm_config_db #(wr_agent_config)::get(this,"","wr_agent_config",wr_agt_cfg))
+if(!uvm_config_db #(wr_agt_config)::get(this,"","wr_agent_config",wr_agt_cfg))
 	`uvm_fatal("AGT_CFG","cannot get() the wr_agent_config from db. have you set() it ?")
 endfunction
 

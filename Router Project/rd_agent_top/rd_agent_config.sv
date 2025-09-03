@@ -1,5 +1,5 @@
 // extend rd_agent_config from uvm_object
-class ram_rd_agent_config extends uvm_object;
+class rd_agent_config extends uvm_object;
 
 
 // UVM Factory Registration Macro
@@ -28,7 +28,7 @@ static int drv_data_sent_cnt = 0;
 // Standard UVM Methods:
 extern function new(string name = "ram_rd_agent_config");
 
-endclass: ram_rd_agent_config
+endclass
 
 function rd_agent_config::new(string name = "ram_rd_agent_config");
   super.new(name);
