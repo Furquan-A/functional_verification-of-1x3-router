@@ -5,13 +5,14 @@ class env extends uvm_env;
 	wr_agt_top wagt_top[];
 	rd_agt_top ragt_top[];
 	
-	//virtual_sequencer v_seqr;
+	virtual_sequencer v_seqr;
 	router_scoreboard sb;
 	
 	env_config env_cfg;
 	
 	extern function new(string name = "env",uvm_component parent);
 	extern function void build_phase(uvm_phase phase);
+	extern function void connect_phase(uvm_phase phase);
 	
 endclass
 	
@@ -48,8 +49,50 @@ if(env_cfg.has_ragent)
 				end 
 	end 
 	
+	// ------------scoreboard -----------------
 if(env_cfg.has_scoreboard)
 	sb = router_scoreboard:: type_id::create("sb",this);
 
-	
+	//----------Virtual Sequencer-------
+if(has_virtual_sequencer)
+v_seqr = virtual_sequencer::type_id:;create("v_seqr",this);
 endfunction
+
+function void env::connect_phase(uvm_phase phase);
+  super.connect_phase(phase);
+
+  // ------ Wire child sequencers into virtual sequencer ------
+  if (env_cfg.has_wagent) begin
+    foreach (wagt_top[i]) begin
+      // wr_agt_top me sequencer ka instance name 'seqr' assume kiya hai; apne hisaab se badlo
+      v_seqr.wr_seqrh[i] = wagt_top[i].seqr;
+    end
+  end
+
+  if (env_cfg.has_ragent) begin
+    foreach (ragt_top[i]) begin
+      v_seqr.rd_seqrh[i] = ragt_top[i].seqr;
+    end
+  end
+
+  // ------ Monitors -> Scoreboard wiring (adjust names) ------
+if (env_cfg.has_scoreboard) begin
+
+  // -------- Write monitor(s) -> Scoreboard expected stream --------
+  // All write-side monitor transactions go into one expected FIFO.
+  if (env_cfg.has_wagent) begin
+    foreach (wagt_top[i]) begin
+      // Adjust 'mon' and 'ap' if your monitor instance/port names differ.
+      wagt_top[i].router_wr_monitor.monitor_port.connect(sb.fifo_wrh.analysis_export);
+    end
+  end
+
+  // -------- Read monitor(s) -> Scoreboard actual streams --------
+  // One FIFO per read agent (sb.act_fifo[i]) to keep ports separated.
+  if (env_cfg.has_ragent) begin
+    foreach (ragt_top[i]) begin
+      ragt_top[i].router_rd_monitor.mon_ap.connect(sb.fifo_rdh[i].analysis_export);
+    end
+  end
+
+end

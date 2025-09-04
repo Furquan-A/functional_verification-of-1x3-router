@@ -9,7 +9,7 @@ endfunction
 
 endclass 
 
-class rd_seq1 extends base_rd_seq;
+class rd1 extends base_rd_seq;
 `uvm_object_utils(rd_seq1)
 
 function new (string name = "rd_seq1");
@@ -28,7 +28,7 @@ repeat(2)
 endtask
 endclass
 
-class rd_seq2 extends base_rd_seq;
+class rd2 extends base_rd_seq;
 `uvm_object_utils(rd_seq2);
 
 function new (string name = "rd_seq2");

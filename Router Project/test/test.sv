@@ -104,8 +104,11 @@ function void router_test::end_of_elaboration_phase(uvm_phase phase);
   // foreach (rd_agt_cfg[i]) rd_agt_cfg[i].set_read_only();
 endfunction
 
-
+// extend small packet class from base test class
 class small_pkt_test extends router_test;
 `uvm_component_utils(small_pkt_test)
+
+// declare the handle for the virtual sequence 
+virtual_sequence v_seq;
 
 function
