@@ -1,9 +1,7 @@
 class router_wr_sequencer extends uvm_sequencer #(router_wr_xtns);
-	`uvm_component_utils(router_wr_sequencer)
-	
-	extern function new(string name = "router_wr_sequencer", uvm_component parent);
-endclass 
+  `uvm_component_utils(router_wr_sequencer)
 
-function router_wr_sequencer :: new ( string name = " router_wr_sequencer", uvm_component parent );
-super.new(name,parent);
-endfunction 
+  function new(string name="router_wr_sequencer", uvm_component parent=null);
+    super.new(name, parent);
+  endfunction
+endclass

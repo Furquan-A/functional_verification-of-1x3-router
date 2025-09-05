@@ -1,151 +1,99 @@
-#Makefile for UVM Testbench - Lab 10
+# =========================
+# Makefile — Router UVM TB
+# =========================
+# Set SIMULATOR=VCS or SIMULATOR=Questa (default VCS)
+SIMULATOR ?= VCS
 
-# SIMULATOR = Questa for Mentor's Questasim
-# SIMULATOR = VCS for Synopsys's VCS
+# ---- Paths (tweak if your tree differs) ----
+RTL       = ../rtl/*.{sv,v}
+TB_IF     = ../tb/router_if.sv
+TB_TOP    = ../tb/router_top_tb.sv
+TEST_PKG  = ../test/test_pkg.sv
+INC       = +incdir+../tb +incdir+../test
 
-SIMULATOR = VCS
+# ---- Verdi FSDB (for VCS) ----
+# If VERDI is installed, prefer its env var; else use fallback path.
+VERDI_HOME ?= /home/cad/eda/SYNOPSYS/VERDI_2022/verdi/T-2022.06-SP1
+FSDB_PATH  ?= $(VERDI_HOME)/share/PLI/VCS/LINUX64
 
-FSDB_PATH=/home/cad/eda/SYNOPSYS/VERDI_2022/verdi/T-2022.06-SP1/share/PLI/VCS/LINUX64
-
-
-RTL= ../rtl/*
-work= work #library name
-SVTB1= ../tb/top.sv
-INC = +incdir+../tb +incdir+../test +incdir+../wr_agt_top +incdir+../rd_agt_top
-SVTB2 = ../test/ram_test_pkg.sv
-VSIMOPT= -vopt -voptargs=+acc 
-VSIMCOV= -coverage -sva 
-VSIMBATCH1= -c -do  " log -r /* ;coverage save -onexit mem_cov1;run -all; exit"
-VSIMBATCH2= -c -do  " log -r /* ;coverage save -onexit mem_cov2;run -all; exit"
-VSIMBATCH3= -c -do  " log -r /* ;coverage save -onexit mem_cov3;run -all; exit"
-VSIMBATCH4= -c -do  " log -r /* ;coverage save -onexit mem_cov4;run -all; exit"
-
+# ---- Common knobs ----
+UVM_SEED  ?= +ntb_random_seed_automatic
+UVM_VERB  ?= +UVM_VERBOSITY=UVM_LOW
 
 help:
-	@echo =============================================================================================================
-	@echo "! USAGE   	--  make target                  								!"
-	@echo "! clean   	=>  clean the earlier log and intermediate files.  						!"
-	@echo "! sv_cmp    	=>  Create library and compile the code.           						!"
-	@echo "! run_test	=>  clean, compile & run the simulation for ram_signle_adddr_test in batch mode.		!" 
-	@echo "! run_test1	=>  clean, compile & run the simulation for ram_ten_addr_test in batch mode.			!" 
-	@echo "! run_test2	=>  clean, compile & run the simulation for ram_odd_addr_test in batch mode.			!"
-	@echo "! run_test3	=>  clean, compile & run the simulation for ram_even_addr_test in batch mode.			!" 
-	@echo "! view_wave1 =>  To view the waveform of ram_signle_addr_test	    						!" 
-	@echo "! view_wave2 =>  To view the waveform of ram_ten_addr_test	    						!" 
-	@echo "! view_wave3 =>  To view the waveform of ram_odd_addr_test 	  						!" 
-	@echo "! view_wave4 =>  To view the waveform of ram_even_addr_test    							!" 
-	@echo "! regress    =>  clean, compile and run all testcases in batch mode.		    				!"
-	@echo "! report     =>  To merge coverage reports for all testcases and  convert to html format.			!"
-	@echo "! cov        =>  To open merged coverage report in html format.							!"
-	@echo ====================================================================================================================
+	@echo "Targets: sv_cmp, run_small, run_medium, run_large, run_rd1, run_rd2,"
+	@echo "         regress, view_wave (tool-specific), clean"
+	@echo "Use: make SIMULATOR=VCS run_small   or   make SIMULATOR=Questa run_small"
 
-clean : clean_$(SIMULATOR)
-sv_cmp : sv_cmp_$(SIMULATOR)
-run_test : run_test_$(SIMULATOR)
-run_test1 : run_test1_$(SIMULATOR)
-run_test2 : run_test2_$(SIMULATOR)
-run_test3 : run_test3_$(SIMULATOR)
-view_wave1 : view_wave1_$(SIMULATOR)
-view_wave2 : view_wave2_$(SIMULATOR)
-view_wave3 : view_wave3_$(SIMULATOR)
-view_wave4 : view_wave4_$(SIMULATOR)
-regress : regress_$(SIMULATOR)
-report : report_$(SIMULATOR)
-cov : cov_$(SIMULATOR)
+clean: clean_$(SIMULATOR)
+sv_cmp: sv_cmp_$(SIMULATOR)
+run_small:  run_small_$(SIMULATOR)
+run_medium: run_medium_$(SIMULATOR)
+run_large:  run_large_$(SIMULATOR)
+run_rd1:    run_rd1_$(SIMULATOR)
+run_rd2:    run_rd2_$(SIMULATOR)
+regress:    regress_$(SIMULATOR)
+view_wave:  view_wave_$(SIMULATOR)
 
-# ----------------------------- Start of Definitions for Mentor's Questa Specific Targets -------------------------------#
-
+# =========================
+# Questa flow
+# =========================
 sv_cmp_Questa:
-	vlib $(work)
-	vmap work $(work)
-	vlog -work $(work) $(RTL) $(INC) $(SVTB2) $(SVTB1) 	
-	
-run_test_Questa: sv_cmp
-	vsim -cvgperinstance $(VSIMOPT) $(VSIMCOV) $(VSIMBATCH1)  -wlf wave_file1.wlf -l test1.log  -sv_seed random  work.top +UVM_TESTNAME=ram_single_addr_test
-	vcover report  -cvg  -details -nocompactcrossbins -codeAll -assert -directive -html mem_cov1
-	
-run_test1_Questa:
-	vsim -cvgperinstance $(VSIMOPT) $(VSIMCOV) $(VSIMBATCH2)  -wlf wave_file2.wlf -l test2.log  -sv_seed random  work.top +UVM_TESTNAME=ram_ten_addr_test
-	vcover report  -cvg  -details -nocompactcrossbins -codeAll -assert -directive -html mem_cov2
-	
-run_test2_Questa:
-	vsim -cvgperinstance $(VSIMOPT) $(VSIMCOV) $(VSIMBATCH3)  -wlf wave_file3.wlf -l test3.log  -sv_seed random  work.top +UVM_TESTNAME=ram_odd_addr_test
-	vcover report  -cvg  -details -nocompactcrossbins -codeAll -assert -directive -html mem_cov3
-	
-run_test3_Questa:
-	vsim -cvgperinstance $(VSIMOPT) $(VSIMCOV) $(VSIMBATCH4)  -wlf wave_file4.wlf -l test4.log  -sv_seed random  work.top +UVM_TESTNAME=ram_even_addr_test
-	vcover report  -cvg  -details -nocompactcrossbins -codeAll -assert -directive -html mem_cov4
-	
-view_wave1_Questa:
-	vsim -view wave_file1.wlf
-	
-view_wave2_Questa:
-	vsim -view wave_file2.wlf
-	
-view_wave3_Questa:
-	vsim -view wave_file3.wlf
-	
-view_wave4_Questa:
-	vsim -view wave_file4.wlf
+	vlib work
+	vmap work work
+	vlog -timescale 1ns/1ps -sv $(INC) $(RTL) $(TB_IF) $(TEST_PKG) $(TB_TOP)
 
-report_Questa:
-	vcover merge mem_cov mem_cov1 mem_cov2 mem_cov3 mem_cov4
-	vcover report -cvg -details -nocompactcrossbins -codeAll -assert -directive -html mem_cov
+# batch run helper (test name, wlf name, log name, cov dir)
+define VSIM_RUN
+	vsim -c -sv_seed random -vopt -voptargs=+acc -coverage -sva \
+	     -do "log -r /*; coverage save -onexit $(3); run -all; exit" \
+	     -wlf $(2) -l $(4) work.router_top_tb +UVM_TESTNAME=$(1) $(UVM_VERB)
+	vcover report -cvg -details -nocompactcrossbins -codeAll -assert -directive -html $(3)
+endef
 
-regress_Questa: clean_Questa run_test_Questa run_test1_Questa run_test2_Questa run_test3_Questa report_Questa cov_Questa
+run_small_Questa:  sv_cmp_Questa ; $(call VSIM_RUN,small_pkt_test,wave_small.wlf,router_cov_small,small.log)
+run_medium_Questa: sv_cmp_Questa ; $(call VSIM_RUN,medium_pkt_test,wave_medium.wlf,router_cov_medium,medium.log)
+run_large_Questa:  sv_cmp_Questa ; $(call VSIM_RUN,large_pkt_test,wave_large.wlf,router_cov_large,large.log)
+run_rd1_Questa:    sv_cmp_Questa ; $(call VSIM_RUN,rd_seq1_test,wave_rd1.wlf,router_cov_rd1,rd1.log)
+run_rd2_Questa:    sv_cmp_Questa ; $(call VSIM_RUN,rd_seq2_test,wave_rd2.wlf,router_cov_rd2,rd2.log)
 
-cov_Questa:
-	firefox covhtmlreport/index.html&
-	
+regress_Questa: clean_Questa sv_cmp_Questa run_small_Questa run_medium_Questa run_large_Questa run_rd1_Questa run_rd2_Questa
+	vcover merge router_cov_merged router_cov_small router_cov_medium router_cov_large router_cov_rd1 router_cov_rd2
+	vcover report -cvg -details -nocompactcrossbins -codeAll -assert -directive -html router_cov_merged
+
+view_wave_Questa:
+	vsim -view wave_small.wlf || true
+
 clean_Questa:
-	rm -rf transcript* *log* fcover* covhtml* mem_cov* *.wlf modelsim.ini work
-	clear
+	rm -rf work transcript* *.wlf vsim.wlf covhtml* router_cov_* *.log
 
-# ----------------------------- End of Definitions for Mentor's Questa Specific Targets -------------------------------#
-
-# ----------------------------- Start of Definitions for Synopsys's VCS Specific Targets -------------------------------#
-
+# =========================
+# VCS flow
+# =========================
 sv_cmp_VCS:
-	vcs -l vcs.log -timescale=1ns/1ps -sverilog -ntb_opts uvm -debug_access+all -full64 -kdb  -lca -P $(FSDB_PATH)/novas.tab $(FSDB_PATH)/pli.a $(RTL) $(INC) $(SVTB2) $(SVTB1)
-		      
-run_test_VCS:	clean  sv_cmp_VCS
-	./simv -a vcs.log +fsdbfile+wave1.fsdb -cm_dir ./mem_cov1 +ntb_random_seed_automatic +UVM_TESTNAME=ram_single_addr_test 
-	urg -dir mem_cov1.vdb -format both -report urgReport1
-	
-run_test1_VCS:	
-	./simv -a vcs.log +fsdbfile+wave2.fsdb -cm_dir ./mem_cov2 +ntb_random_seed_automatic +UVM_TESTNAME=ram_ten_addr_test 
-	urg -dir mem_cov2.vdb -format both -report urgReport2
-	
-run_test2_VCS:	
-	./simv -a vcs.log +fsdbfile+wave3.fsdb -cm_dir ./mem_cov3 +ntb_random_seed_automatic +UVM_TESTNAME=ram_odd_addr_test 
-	urg -dir mem_cov3.vdb -format both -report urgReport3
-	
-run_test3_VCS:	
-	./simv -a vcs.log +fsdbfile+wave4.fsdb -cm_dir ./mem_cov4 +ntb_random_seed_automatic +UVM_TESTNAME=ram_even_addr_test 
-	urg -dir mem_cov4.vdb -format both -report urgReport4
-	
-view_wave1_VCS: 
-	verdi -ssf wave1.fsdb
-	
-view_wave2_VCS: 
-	verdi -ssf wave2.fsdb
+	vcs -full64 -sverilog -timescale=1ns/1ps -ntb_opts uvm -debug_access+all -kdb -lca \
+	    -P $(FSDB_PATH)/novas.tab $(FSDB_PATH)/pli.a \
+	    $(INC) $(RTL) $(TB_IF) $(TEST_PKG) $(TB_TOP) \
+	    -l vcs_compile.log
 
-view_wave3_VCS: 
-	verdi -ssf wave3.fsdb
+# run helper (test name, fsdb, cov dir, log)
+define VCS_RUN
+	./simv -l $(4) +fsdbfile+$(2) -cm_dir $(3) $(UVM_SEED) $(UVM_VERB) +UVM_TESTNAME=$(1)
+	urg -dir $(3).vdb -format both -report $(3)_urg
+endef
 
-view_wave4_VCS: 
-	verdi -ssf wave4.fsdb		
-	
-report_VCS:
-	urg -dir mem_cov1.vdb mem_cov2.vdb mem_cov3.vdb mem_cov4.vdb -dbname merged_dir/merged_test -format both -report urgReport
+run_small_VCS:  clean_VCS sv_cmp_VCS ; $(call VCS_RUN,small_pkt_test,wave_small.fsdb,router_cov_small,small.log)
+run_medium_VCS:            sv_cmp_VCS ; $(call VCS_RUN,medium_pkt_test,wave_medium.fsdb,router_cov_medium,medium.log)
+run_large_VCS:             sv_cmp_VCS ; $(call VCS_RUN,large_pkt_test,wave_large.fsdb,router_cov_large,large.log)
+run_rd1_VCS:               sv_cmp_VCS ; $(call VCS_RUN,rd_seq1_test,wave_rd1.fsdb,router_cov_rd1,rd1.log)
+run_rd2_VCS:               sv_cmp_VCS ; $(call VCS_RUN,rd_seq2_test,wave_rd2.fsdb,router_cov_rd2,rd2.log)
 
-regress_VCS: clean_VCS sv_cmp_VCS run_test_VCS run_test1_VCS run_test2_VCS run_test3_VCS report_VCS
+regress_VCS: clean_VCS sv_cmp_VCS run_small_VCS run_medium_VCS run_large_VCS run_rd1_VCS run_rd2_VCS
+	urg -dir router_cov_small.vdb router_cov_medium.vdb router_cov_large.vdb router_cov_rd1.vdb router_cov_rd2.vdb \
+	    -dbname merged_dir/merged -format both -report router_cov_merged
 
-cov_VCS:
-	verdi -cov -covdir merged_dir.vdb
+view_wave_VCS:
+	verdi -ssf wave_small.fsdb || true
 
 clean_VCS:
-	rm -rf simv* csrc* *.tmp *.vpd *.vdb *.key *.log *hdrs.h urgReport* *.fsdb novas* verdi*
-	clear
-
-# ----------------------------- END of Definitions for Synopsys's VCS Specific Targets -------------------------------#
+	rm -rf simv* csrc* *.vpd *.vdb *.key *.log *.fsdb urgReport* novas* verdi* *.daidir

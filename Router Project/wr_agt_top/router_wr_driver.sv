@@ -10,8 +10,11 @@ endfunction
 
 function void build_phase(uvm_phase phase);
 super.build_phase(phase);
-if(!uvm_config_db #(wr_agt_config)::get(this,"","wr_agent_config",wr_agt_cfg))
+if(!uvm_config_db #(wr_agt_config)::get(this,"","wr_agent_config",m_cfg))
 	`uvm_fatal("AGT_CFG","cannot get() the wr_agent_config from db. have you set() it ?")
+
+if (!uvm_config_db#(virtual router_if)::get(this, "", "vif", vif))
+    `uvm_fatal("VIF_CONFIG", "Cannot get write vif from config DB");
 endfunction
 
 function void connect_phase(uvm_phase phase);

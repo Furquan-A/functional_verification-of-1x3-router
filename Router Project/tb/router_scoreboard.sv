@@ -1,127 +1,157 @@
 class router_scoreboard extends uvm_scoreboard;
   `uvm_component_utils(router_scoreboard)
 
-uvm_tlm_analysis_fifo #(router_rd_xtns) fifo_rdh[]; // it is dynamic because we have 3 dest monitors and the sb has to read the data from all the 3 monitors.
-uvm_tlm_analysis_fifo #(router_wr_xtns) fifo_wrh;
+  // TLM FIFOs fed by monitors (wired in env.connect_phase)
+  uvm_tlm_analysis_fifo #(router_wr_xtns) fifo_wrh;
+  uvm_tlm_analysis_fifo #(router_rd_xtns) fifo_rdh[];
 
-router_rd_xtns rd_data;
-router_wr_xtns wr_data;
-router_rd_xtns read_cov_data;
-router_wr_xtns write_cov_data;
+  // Per-destination expected queues (from write side)
+  router_wr_xtns exp_q[][$];
 
-env_config e_cfg;
-int data_verified_count;
+  // Scratch
+  router_wr_xtns wr_data;
+  env_config     e_cfg;
+  int            data_verified_count;
 
-covergroup router_fcov;
-	option.per_instance =1;
-	ADDRESS : coverpoint addr {
-    bins low  = {2'b00};
-    bins mid1 = {2'b01};
-    bins mid2 = {2'b10};
-    // (keep your bins as-is; add 2'b11 if you want later)
-  }
+  // -------- Functional coverage --------
+  // Sample with (addr, payload_len)
+  covergroup router_fcov with function sample(bit [1:0] addr, int unsigned plen);
+    option.per_instance = 1;
 
-  PAYLOAD_SIZE : coverpoint plen {
-    bins small_packets  = {[1:13]};
-    bins midium_packets = {[14:30]};
-    bins large_packets  = {[31:63]};
-  }
+    ADDRESS : coverpoint addr {
+      bins low  = {2'b00};
+      bins mid1 = {2'b01};
+      bins mid2 = {2'b10};
+      // add 2'b11 later if you ever enable it
+    }
 
-  ADDRESS_X_PAYLOAD_SIZE: cross ADDRESS, PAYLOAD_SIZE;
-endgroup
+    PAYLOAD_SIZE : coverpoint plen {
+      bins small_packets  = {[1:13]};
+      bins medium_packets = {[14:30]};
+      bins large_packets  = {[31:63]};
+    }
 
-router_fcov router_fcov1;
-router_fcov router_fcov2;
+    ADDRESS_X_PAYLOAD_SIZE : cross ADDRESS, PAYLOAD_SIZE;
+  endgroup
 
-function new( string name = "router_scoreboard", uvm_component parent);
-super.new(name,parent);
-endfunction
+  router_fcov wr_cov;  // write-side
+  router_fcov rd_cov;  // read-side
 
-function void build_phase(uvm_phase phase);
-super.build_phase(phase);
-if(!uvm_config_db #(env_config) ::get(this,"","env_config",e_cfg))
-`uvm_fatal("CONFIG","cannot get() the config")
-router_fcov1 = new();
-router_fcov2 = new();
-fifo_wrh = uvm_tlm_analysis_fifo#(router_wr_xtns)::type_id::create("fifo_wrh", this);
-fifo_rdh = new[e_cfg.no_of_rd_agents];// we have to know how many read monitors are present in the design 
-foreach(fifo_rdh[i])
-	begin 
-		 fifo_rdh[i] = uvm_tlm_analysis_fifo#(router_rd_xtns)::type_id::create($sformatf("fifo_rdh[%0d]", i), this); // It is how we crate the handles for the dunamic types 
-	end 
-endfunction 
+  function new(string name="router_scoreboard", uvm_component parent=null);
+    super.new(name,parent);
+  endfunction
 
-task run_phase(uvm_phase phase ); // get the data from both the wr mon and rd mons using the get method 
-fork 
-	begin 
-		forever 
-				begin 
-					fifo_wrh.get(wr_data);
-					`uvm_info("WRITE SB","Write data",UVM_LOW)
-					wr_data.print();
-					router_fcov1.sample(wr_data.header[1:0], wr_data.header[7:2]);
+  function void build_phase(uvm_phase phase);
+    super.build_phase(phase);
 
-				end
-	end 
-	
-	begin 
-		forever
-				begin 
-					fork:A 
-							begin 
-								
-								fifo_rdh[0].get(rd_data);
-								`uvm_info("READ SB[0]","read_data",UVM_LOW)
-								check_data(rd_data);
-								router_fcov2.sample(rd_data.header[1:0], rd_data.header[7:2]);
-							end 
-						
-							begin 
-								fifo_rdh[1].get(rd_data);
-								`uvm_info("READ SB[1]","read_data",UVM_LOW)
-								check_data(rd_data);
-								router_fcov2.sample(rd_data.header[1:0], rd_data.header[7:2]);
-							end 
-							
-							begin 
-								fifo_rdh[2].get(rd_data);
-								`uvm_info("READ SB[2]","read_data",UVM_LOW)
-								check_data(rd_data);
-								router_fcov2.sample(rd_data.header[1:0], rd_data.header[7:2]);
-							end 
-					join_any
-					disable A;
-				end 
-	end 
-join 
-endtask 
+    if (!uvm_config_db#(env_config)::get(this,"","env_config", e_cfg))
+      `uvm_fatal("CONFIG","cannot get env_config")
 
-function void check_data(router_rd_xtns rd);
-	
-	if(wr_data.header == rd.header)
-		`uvm_info("SB","header matched successfully",UVM_LOW)
-	else
-	`uvm_error("SB","HEADER COMPARISION FAILED")
-	
-	if(wr_data.payload_data == rd.payload_data)
-		`uvm_info("SB","payload_data matched successfully",UVM_LOW)
-	else
-	`uvm_error("SB","payload_data COMPARISION FAILED")
-	
-	if(wr_data.parity == rd.parity)
-		`uvm_info("SB","parity matched successfully",UVM_LOW)
-	else
-	`uvm_error("SB","parity COMPARISION FAILED")
-	
-	data_verified_count++;
-endfunction
+    wr_cov = new();
+    rd_cov = new();
 
-function void report_phase(uvm_phase phase);
-  super.report_phase(phase);
-  $display("==== Write Port Coverage ====");
-  router_fcov1.print();
-  $display("==== Read Port Coverage ====");
-  router_fcov2.print();
-endfunction
+    fifo_wrh = uvm_tlm_analysis_fifo#(router_wr_xtns)::type_id::create("fifo_wrh", this);
 
+    fifo_rdh = new[e_cfg.no_of_rd_agents];
+    foreach (fifo_rdh[i]) begin
+      fifo_rdh[i] = uvm_tlm_analysis_fifo#(router_rd_xtns)::type_id::create($sformatf("fifo_rdh[%0d]", i), this);
+    end
+
+    // one expected queue per read port
+    exp_q = new[e_cfg.no_of_rd_agents];
+  endfunction
+
+  task run_phase(uvm_phase phase);
+    // --- Write consumer: push to per-dest expected queues
+    fork
+      begin : WR_CONS
+        forever begin
+          fifo_wrh.get(wr_data);
+          int unsigned dest = wr_data.header[1:0];
+          int unsigned plen = wr_data.header[7:2];
+
+          if (dest >= exp_q.size()) begin
+            `uvm_error("SB", $sformatf("Write dest %0d out of range (size %0d)", dest, exp_q.size()))
+          end
+          else begin
+            exp_q[dest].push_back(wr_data);
+            `uvm_info("WRITE_SB", $sformatf("Enqueued EXP for dest %0d (plen=%0d)", dest, plen), UVM_LOW)
+            wr_cov.sample(dest, plen);
+          end
+        end
+      end
+
+      // --- One read consumer per port: pop & compare
+      begin : RD_CONS_ALL
+        fork
+          foreach (fifo_rdh[i]) begin
+            automatic int idx = i;
+            begin : RD_CONS
+              forever begin
+                router_rd_xtns rd_item;
+                fifo_rdh[idx].get(rd_item);
+
+                `uvm_info("READ_SB", $sformatf("Got RD from port %0d (plen=%0d)", idx, rd_item.header[7:2]), UVM_LOW)
+
+                // Coverage on read
+                rd_cov.sample(rd_item.header[1:0], rd_item.header[7:2]);
+
+                // Match against expected from this port
+                if (exp_q[idx].size() == 0) begin
+                  `uvm_error("SB", $sformatf("No expected item queued for port %0d", idx))
+                end
+                else begin
+                  router_wr_xtns exp = exp_q[idx].pop_front();
+                  compare_items(idx, exp, rd_item);
+                end
+              end
+            end
+          end
+        join_none
+      end
+    join
+  endtask
+
+  // ---------- Comparison ----------
+  function void compare_items(int port, router_wr_xtns exp, router_rd_xtns got);
+    string tag = $sformatf("SB[P%0d]", port);
+
+    // Header
+    if (exp.header !== got.header)
+      `uvm_error(tag, $sformatf("HEADER mismatch exp=%0h got=%0h", exp.header, got.header))
+    else
+      `uvm_info(tag, "Header match", UVM_LOW)
+
+    // Payload
+    if (exp.payload_data.size() != got.payload_data.size()) begin
+      `uvm_error(tag, $sformatf("PAYLOAD size mismatch exp=%0d got=%0d",
+                                exp.payload_data.size(), got.payload_data.size()))
+    end
+    else begin
+      bit ok = 1;
+      foreach (exp.payload_data[i]) begin
+        if (exp.payload_data[i] !== got.payload_data[i]) begin
+          ok = 0;
+          `uvm_error(tag, $sformatf("PAYLOAD[%0d] mismatch exp=%0h got=%0h",
+                                    i, exp.payload_data[i], got.payload_data[i]))
+        end
+      end
+      if (ok) `uvm_info(tag, "Payload match", UVM_LOW)
+    end
+
+    // Parity
+    if (exp.parity !== got.parity)
+      `uvm_error(tag, $sformatf("PARITY mismatch exp=%0h got=%0h", exp.parity, got.parity))
+    else
+      `uvm_info(tag, "Parity match", UVM_LOW)
+
+    data_verified_count++;
+  endfunction
+
+  function void report_phase(uvm_phase phase);
+    super.report_phase(phase);
+    `uvm_info("SB", $sformatf("Verified transactions: %0d", data_verified_count), UVM_LOW)
+    `uvm_info("SB", $sformatf("Write cov  : %0.2f%%", wr_cov.get_coverage()), UVM_LOW)
+    `uvm_info("SB", $sformatf("Read  cov  : %0.2f%%", rd_cov.get_coverage()), UVM_LOW)
+  endfunction
 endclass

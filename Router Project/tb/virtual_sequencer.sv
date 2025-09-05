@@ -1,7 +1,7 @@
 class virtual_sequencer extends uvm_sequencer #(uvm_sequence_item);
   `uvm_component_utils(virtual_sequencer)
 
-  // Handles to EXISTING agent sequencers (assigned from env.connect_phase)
+  // Handles to agent sequencers (env.connect_phase assigns these)
   router_wr_sequencer wr_seqrh[];
   router_rd_sequencer rd_seqrh[];
 
@@ -14,12 +14,10 @@ class virtual_sequencer extends uvm_sequencer #(uvm_sequence_item);
   function void build_phase(uvm_phase phase);
     super.build_phase(phase);
 
-    // Match the key you set in the test
     if (!uvm_config_db#(env_config)::get(this, "", "env_config", e_cfg))
       `uvm_fatal("NO_CFG", "Cannot get env_config; did you set() it with key 'env_config'?");
 
-    // Size arrays only; env.connect_phase will assign the handles
-    wr_seqrh = new[(e_cfg.has_wagent) ? e_cfg.no_of_write_agents : 0];
-    rd_seqrh = new[(e_cfg.has_ragent) ? e_cfg.no_of_read_agents  : 0];
-  endfunction
+    // Size arrays according to your env_config usage
+    wr_seqrh = new[(e_cfg.has_wagent) ? e_cfg.no_of_wr_agents : 0];
+	rd_seqrh = new[(e_cfg.has_ragent) ? e_cfg.no_of_rd_agents : 0];
 endclass

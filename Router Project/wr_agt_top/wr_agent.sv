@@ -1,11 +1,11 @@
 class wr_agent extends uvm_agent;
   `uvm_component_utils(wr_agent)
 
-  router_wr_driver    wdrvh;
-  router_wr_monitor   wmonh;
-  router_wr_sequencer wseqrh;
+  router_wr_driver     wdrvh;
+  router_wr_monitor    wmonh;
+  router_wr_sequencer  wseqrh;
 
-  wr_agent_config wr_agt_cfg;
+  wr_agent_config      wr_agt_cfg;
   uvm_analysis_port#(router_wr_xtns) ap; // optional proxy
 
   function new(string name="wr_agent", uvm_component parent=null);
@@ -18,14 +18,14 @@ class wr_agent extends uvm_agent;
     if (!uvm_config_db#(wr_agent_config)::get(this, "", "wr_agent_config", wr_agt_cfg))
       `uvm_fatal("CONFIG","cannot get wr_agt_cfg from config_db. Did you set it?")
 
-    // push cfg to all children of this agent like driver, Monitor and sequencer 
+    // push cfg to children (driver/monitor/sequencer)
     uvm_config_db#(wr_agent_config)::set(this, "*", "wr_agent_config", wr_agt_cfg);
 
     // analysis port proxy (optional)
     ap = new("ap", this);
 
     // always build monitor
-    wmonh  = router_wr_monitor ::type_id::create("wmonh" , this);
+    wmonh  = router_wr_monitor   ::type_id::create("wmonh" , this);
 
     if (wr_agt_cfg.is_active == UVM_ACTIVE) begin
       wdrvh  = router_wr_driver  ::type_id::create("wdrvh" , this);
@@ -43,6 +43,9 @@ class wr_agent extends uvm_agent;
     end
 
     // proxy monitor’s analysis_port out of the agent
+    if (wmonh == null)
+      `uvm_fatal("AGT_BUILD","monitor null");
     wmonh.ap.connect(ap);
   endfunction
 endclass
+

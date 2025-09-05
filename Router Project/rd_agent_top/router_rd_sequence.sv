@@ -1,48 +1,48 @@
+// ---------------- Base RD ----------------
 class base_rd_seq extends uvm_sequence #(router_rd_xtns);
-`uvm_object_utils(base_rd_seq)
+  `uvm_object_utils(base_rd_seq)
 
-router_rd_xtns req;
+  router_rd_xtns req;
 
-function new (string name = "base_rd_seq");
-super.new(name);
-endfunction
-
-endclass 
-
-class rd1 extends base_rd_seq;
-`uvm_object_utils(rd_seq1)
-
-function new (string name = "rd_seq1");
-super.new(name);
-endfunction 
-
-task body();
-repeat(2)
-	begin 
-		req = router_rd_xtns::type_id::create("req", this);
-		start_item(req);
-		if(!req.randomize() with {no_of_cycles inside [0:29];})
-			`uvm_error("RANDOMIZE_FAILED ","randomization failed ")
-		finish_item(req);
-	end
-endtask
+  function new(string name="base_rd_seq");
+    super.new(name);
+  endfunction
 endclass
 
+// ---------------- rd1 --------------------
+class rd1 extends base_rd_seq;
+  `uvm_object_utils(rd1)
+
+  function new(string name="rd1");
+    super.new(name);
+  endfunction
+
+  virtual task body();
+    repeat (2) begin
+      req = router_rd_xtns::type_id::create("req", this);
+      start_item(req);
+      if (!req.randomize() with { no_of_cycles inside {[0:29]}; })
+        `uvm_error("RANDOMIZE_FAILED","randomization failed (rd1)")
+      finish_item(req);
+    end
+  endtask
+endclass
+
+// ---------------- rd2 --------------------
 class rd2 extends base_rd_seq;
-`uvm_object_utils(rd_seq2);
+  `uvm_object_utils(rd2)
 
-function new (string name = "rd_seq2");
-super.new(name);
-endfunction 
+  function new(string name="rd2");
+    super.new(name);
+  endfunction
 
-task body();
-repeat(2)
-	begin 
-		req = router_rd_xtns::type_id::create("req", this);
-		start_item(req);
-		if(!req.randomize() with {no_of_cycles inside [30:45];})
-			`uvm_error("RANDOMIZE_FAILED ","randomization failed ")
-		finish_item(req);
-	end
-endtask
+  virtual task body();
+    repeat (2) begin
+      req = router_rd_xtns::type_id::create("req", this);
+      start_item(req);
+      if (!req.randomize() with { no_of_cycles inside {[30:45]}; })
+        `uvm_error("RANDOMIZE_FAILED","randomization failed (rd2)")
+      finish_item(req);
+    end
+  endtask
 endclass

@@ -19,8 +19,12 @@ endfunction
 
 function void router_rd_driver::build_phase(uvm_phase phase);
 super.build_phase(phase);
-if(!uvm_config_db #(router_rd_xtns) :: get(this,"","rd_agent_config"m_cfg);
+if(!uvm_config_db #(router_rd_xtns) :: get(this,"","rd_agent_config",m_cfg);
 	`uvm_fatal("RD_DRV_CFG","cannot get() the m_cfg from config db, did you set() it ?")
+	
+if (!uvm_config_db#(virtual router_if)::get(this, "", $sformatf("rd_vif[%0d]", m_cfg.agent_id), vif))
+    `uvm_fatal("VIF_CONFIG", $sformatf("Cannot get rd_vif[%0d] from config DB", m_cfg.agent_id));
+	
 m_cfg = rd_agent_config::type_id::create("m_cfg",this);
 endfunction 
 

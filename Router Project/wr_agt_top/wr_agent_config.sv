@@ -8,8 +8,7 @@ class wr_agt_config extends uvm_object;
   // Optional knobs
   bit has_coverage = 1;
 
-
   function new(string name="wr_agt_config");
     super.new(name);
   endfunction
-endclass
+  endclass
