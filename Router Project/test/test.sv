@@ -1,11 +1,11 @@
 class router_test extends uvm_test;
 
-`uvm_component_utils(test)
+`uvm_component_utils(router_test)
 
 env env_h;
 env_config env_cfg;
 virtual router_if vif;
-
+virtual_sequencer v_seqr;
 wr_agent_config  wr_agt_cfg[];
 rd_agent_config  rd_agt_cfg[];
 
@@ -57,8 +57,6 @@ function void router_test::config_i();
 		end 
 					
 endfunction
-
- //-------------------------------------------------------------------
 		  
 function void router_test :: build_phase(uvm_phase phase);
 super.build_phase(phase);
@@ -72,12 +70,11 @@ if (has_ragent)
 		env_cfg.wr_agt_cfg = new[no_of_read__agents];
 		
 config_i();
-uvm_config_db #(env_config)::set(this,"","env_config",env_cfg);
+
+  // make env_cfg visible to env and others
+  uvm_config_db#(env_config)::set(this, "", "env_config", env_cfg);
 
 endfunction
-
-
-//-------------------------------------------------------------------
 
 function void router_test::end_of_elaboration_phase(uvm_phase phase);
   super.end_of_elaboration_phase(phase);
@@ -95,20 +92,70 @@ function void router_test::end_of_elaboration_phase(uvm_phase phase);
             $sformatf("Config: wr_agents=%0d rd_agents=%0d has_w=%0d has_r=%0d",
                       no_of_write_agents, no_of_read_agents, has_wagent, has_ragent),
             UVM_LOW)
-
-  // Useful to visualize what got built
   uvm_root::get().print_topology();
 
-  // (Optional) lock configs after elaboration to avoid late edits
-  // foreach (wr_agt_cfg[i]) wr_agt_cfg[i].set_read_only();
-  // foreach (rd_agt_cfg[i]) rd_agt_cfg[i].set_read_only();
+  /
 endfunction
 
-// extend small packet class from base test class
+// extend small packet class from base test class-------------------------------------------------------------------
+
 class small_pkt_test extends router_test;
 `uvm_component_utils(small_pkt_test)
 
-// declare the handle for the virtual sequence 
-virtual_sequence v_seq;
 
-function
+task run_phase(uvm_phase phase);
+phase.raise_objection(this);
+small_pkt_vtest v = small_pkt_vtest::type_id::create("v");
+v.start(env_h.v_seqr);
+phase.drop_objection(this);
+endtask
+
+endclass
+
+class medium_pkt_test extends router_test;
+`uvm_component_utils(medium_pkt_test)
+
+task run_phase(uvm_phase phase);
+phase.raise_objection(this);
+medium_pkt_vtest v = medium_pkt_vtest::type_id::create("v");
+v.start(env_h.v_seqr);
+phase.drop_objection(this);
+endtask
+
+endclass
+
+class large_pkt_test extends router_test;
+`uvm_component_utils(large_pkt_test)
+
+task run_phase(uvm_phase phase);
+phase.raise_objection(this);
+large_pkt_vtest v = large_pkt_vtest::type_id::create("v");
+v.start(env_h.v_seqr);
+phase.drop_objection(this);
+endtask
+
+endclass
+
+class rd_seq1_test extends router_test;
+`uvm_component_utils(rd_seq1_test)
+
+task run_phase(uvm_phase phase);
+phase.raise_objection(this);
+rd_seq1_vtest v = rd_seq1_vtest::type_id::create("v");
+v.start(env_h.v_seqr);
+phase.drop_objection(this);
+endtask
+
+endclass
+
+class rd_seq2_test extends router_test;
+`uvm_component_utils(rd_seq2_test)
+
+task run_phase(uvm_phase phase);
+phase.raise_objection(this);
+rd_seq2_vtest v = rd_seq2_vtest::type_id::create("v");
+v.start(env_h.v_seqr);
+phase.drop_objection(this);
+endtask
+
+endclass
