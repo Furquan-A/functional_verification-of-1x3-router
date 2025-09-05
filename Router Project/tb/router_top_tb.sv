@@ -3,7 +3,7 @@ import uvm_pkg::*;
 import test_pkg::*;             // Replace with your package name (where env/tests are defined)
 `include "uvm_macros.svh"
 
-module router_top;
+module router_top_tb;
 
   // Clock & Reset
   bit clk;
