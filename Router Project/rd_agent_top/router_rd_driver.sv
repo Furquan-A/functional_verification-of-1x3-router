@@ -2,14 +2,14 @@ class router_rd_driver extends uvm_driver #(router_rd_xtns);
 `uvm_component_utils(router_rd_driver)
 
 rd_agent_config m_cfg;
-virtual router_if vif;
+virtual router_if.RDR_MP vif;
 
 
 extern function new(string name = "router_rd_driver", uvm_component parent);
 extern function void build_phase(uvm_phase phase);
 extern function void connect_phase(uvm_phase phase);
 extern task run_phase(uvm_phase);
-extern task send_to_dut();
+extern task send_to_dut(router_rd_xtns xtns);
 
 endclass
 
@@ -20,23 +20,13 @@ endfunction
 function void router_rd_driver::build_phase(uvm_phase phase);
 super.build_phase(phase);
 if (!uvm_config_db#(router_rd_xtns)::get(this, "", "rd_agent_config", m_cfg)) begin
-    `uvm_fatal("RD_DRV_CFG", "cannot get() the m_cfg from config db, did you set() it?")
+    `uvm_fatal(get_type_name(), "FAILED TO GET THE CONFIG")
 end
-
-	
-if (!uvm_config_db#(virtual router_if)::get(this, "", $sformatf("rd_vif[%0d]", m_cfg.agent_id), vif))
-    `uvm_fatal("VIF_CONFIG", $sformatf("Cannot get rd_vif[%0d] from config DB", m_cfg.agent_id));
-	
-m_cfg = rd_agent_config::type_id::create("m_cfg",this);
 endfunction 
 
 function void router_rd_driver :: connect_phase(uvm_phase phase);
 super.connect_phase(phase);
-if(vif == null && m_cfg.vif != null) 
-	begin 
-	vif = m_cfg.vif;
-end 
-seq_item_port.connect(sequencer.seq_item_export);
+	this.vif = m_cfg.vif;
 endtask
 
 task router_rd_driver :: run_phase(uvm_phase);
@@ -44,18 +34,21 @@ forever
 	begin 
 		seq_item_port.get_next_item(req);
 		send_to_dut(req);
-		seq_item_port.item_done(req);
+		seq_item_port.item_done();
 	end
 endtask 
 
 task router_rd_driver :: send_to_dut(router_rd_xtns xtns);
 wait(vif.rdr_cb.valid_out)
 @(vif.rdr_cb);
+`uvm_info(get_type_name(), $sformatf("\n\nREAD DELAY GENERATED = %0d\n", xtns.no_of_cycles), UVM_LOW)
 repeat(xtns.no_of_cycles)
 @(vif.rdr_cb);
 vif.rdr_cb.read_enb <= 1'b1;
+$display("ASSERTED READ ENABLE");
 wait(!vif.rdr_cb.valid_out)
-vif.rdr_cb.read_enb <= 1'b0;
 @(vif.rdr_cb);
+vif.rdr_cb.read_enb <= 1'b0;
+$display("DE-ASSERTED READ ENABLE");
 endtask
 

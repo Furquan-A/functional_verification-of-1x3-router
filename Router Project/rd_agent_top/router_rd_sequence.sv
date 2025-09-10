@@ -1,4 +1,4 @@
-// ---------------- Base RD ----------------
+/ ---------------- Base RD ----------------
 class base_rd_seq extends uvm_sequence #(router_rd_xtns);
   `uvm_object_utils(base_rd_seq)
 
@@ -18,13 +18,13 @@ class rd1 extends base_rd_seq;
   endfunction
 
   virtual task body();
-    repeat (2) begin
-      req = router_rd_xtns::type_id::create("req", this);
+    
+      req = router_rd_xtns::type_id::create("req");
       start_item(req);
-      if (!req.randomize() with { no_of_cycles inside {[0:29]}; })
+      if (!req.randomize() with { req.no_of_cycles inside {[0:29]}; })
         `uvm_error("RANDOMIZE_FAILED","randomization failed (rd1)")
       finish_item(req);
-    end
+ 
   endtask
 endclass
 
@@ -37,12 +37,13 @@ class rd2 extends base_rd_seq;
   endfunction
 
   virtual task body();
-    repeat (2) begin
-      req = router_rd_xtns::type_id::create("req", this);
+  
+      req = router_rd_xtns::type_id::create("req");
       start_item(req);
-      if (!req.randomize() with { no_of_cycles inside {[30:45]}; })
+      if (!req.randomize() with { req.no_of_cycles inside {[30:45]}; })
         `uvm_error("RANDOMIZE_FAILED","randomization failed (rd2)")
       finish_item(req);
-    end
+   
   endtask
 endclass
+
