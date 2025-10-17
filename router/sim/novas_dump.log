@@ -1,0 +1,326 @@
+#######################################################################################
+# log primitive debug message of FSDB dumping                                         #
+# This is for R&D to analyze when there are issues happening when FSDB dump           #
+#######################################################################################
+ANF: vcsd_get_serial_mode_status('./simv: undefined symbol: vcsd_get_serial_mode_status')
+ANF: vcsd_enable_sva_success_callback('./simv: undefined symbol: vcsd_enable_sva_success_callback')
+ANF: vcsd_disable_sva_success_callback('./simv: undefined symbol: vcsd_disable_sva_success_callback')
+ANF: vcsd_get_power_scope_name('./simv: undefined symbol: vcsd_get_power_scope_name')
+ANF: vcsd_begin_no_value_var_info('./simv: undefined symbol: vcsd_begin_no_value_var_info')
+ANF: vcsd_end_no_value_var_info('./simv: undefined symbol: vcsd_end_no_value_var_info')
+ANF: vcsd_remove_xprop_merge_mode_callback('./simv: undefined symbol: vcsd_remove_xprop_merge_mode_callback')
+ANF: vhpi_get_cb_info('./simv: undefined symbol: vhpi_get_cb_info')
+ANF: vhpi_free_handle('./simv: undefined symbol: vhpi_free_handle')
+ANF: vhpi_fetch_vcsd_handle('./simv: undefined symbol: vhpi_fetch_vcsd_handle')
+ANF: vhpi_fetch_vpi_handle('./simv: undefined symbol: vhpi_fetch_vpi_handle')
+ANF: vhpi_has_verilog_parent('./simv: undefined symbol: vhpi_has_verilog_parent')
+ANF: vhpi_is_verilog_scope('./simv: undefined symbol: vhpi_is_verilog_scope')
+ANF: scsd_xprop_is_enabled('./simv: undefined symbol: scsd_xprop_is_enabled')
+ANF: scsd_xprop_sig_is_promoted('./simv: undefined symbol: scsd_xprop_sig_is_promoted')
+ANF: scsd_xprop_int_xvalue('./simv: undefined symbol: scsd_xprop_int_xvalue')
+ANF: scsd_xprop_bool_xvalue('./simv: undefined symbol: scsd_xprop_bool_xvalue')
+ANF: scsd_xprop_enum_xvalue('./simv: undefined symbol: scsd_xprop_enum_xvalue')
+ANF: scsd_xprop_register_merge_mode_cb('./simv: undefined symbol: scsd_xprop_register_merge_mode_cb')
+ANF: scsd_xprop_delete_merge_mode_cb('./simv: undefined symbol: scsd_xprop_delete_merge_mode_cb')
+ANF: scsd_xprop_get_merge_mode('./simv: undefined symbol: scsd_xprop_get_merge_mode')
+ANF: scsd_thread_get_info('./simv: undefined symbol: scsd_thread_get_info')
+ANF: scsd_thread_vc_init('./simv: undefined symbol: scsd_thread_vc_init')
+ANF: scsd_master_set_delta_sync_cbk('./simv: undefined symbol: scsd_master_set_delta_sync_cbk')
+ANF: scsd_fgp_get_fsdb_cores('./simv: undefined symbol: scsd_fgp_get_fsdb_cores')
+ANF: scsd_fgp_get_is_cpu_affinity_disabled('./simv: undefined symbol: scsd_fgp_get_is_cpu_affinity_disabled')
+ANF: vhdi_dt_get_type('./simv: undefined symbol: vhdi_dt_get_type')
+ANF: vhdi_dt_get_key('./simv: undefined symbol: vhdi_dt_get_key')
+ANF: vhdi_dt_get_vhdl_enum_info('./simv: undefined symbol: vhdi_dt_get_vhdl_enum_info')
+ANF: vhdi_dt_get_vhdl_physical_info('./simv: undefined symbol: vhdi_dt_get_vhdl_physical_info')
+ANF: vhdi_dt_get_vhdl_array_info('./simv: undefined symbol: vhdi_dt_get_vhdl_array_info')
+ANF: vhdi_dt_get_vhdl_record_info('./simv: undefined symbol: vhdi_dt_get_vhdl_record_info')
+ANF: vhdi_def_traverse_module('./simv: undefined symbol: vhdi_def_traverse_module')
+ANF: vhdi_def_traverse_scope('./simv: undefined symbol: vhdi_def_traverse_scope')
+ANF: vhdi_def_traverse_variable('./simv: undefined symbol: vhdi_def_traverse_variable')
+ANF: vhdi_def_get_module_id_by_vhpi('./simv: undefined symbol: vhdi_def_get_module_id_by_vhpi')
+ANF: vhdi_def_get_handle_by_module_id('./simv: undefined symbol: vhdi_def_get_handle_by_module_id')
+ANF: vhdi_def_get_variable_info_by_vhpi('./simv: undefined symbol: vhdi_def_get_variable_info_by_vhpi')
+ANF: vhdi_def_free('./simv: undefined symbol: vhdi_def_free')
+ANF: vhdi_ist_traverse_scope('./simv: undefined symbol: vhdi_ist_traverse_scope')
+ANF: vhdi_ist_traverse_variable('./simv: undefined symbol: vhdi_ist_traverse_variable')
+ANF: vhdi_ist_convert_by_vhpi('./simv: undefined symbol: vhdi_ist_convert_by_vhpi')
+ANF: vhdi_ist_clone('./simv: undefined symbol: vhdi_ist_clone')
+ANF: vhdi_ist_free('./simv: undefined symbol: vhdi_ist_free')
+ANF: vhdi_ist_hash_key('./simv: undefined symbol: vhdi_ist_hash_key')
+ANF: vhdi_ist_compare('./simv: undefined symbol: vhdi_ist_compare')
+ANF: vhdi_ist_get_value_addr('./simv: undefined symbol: vhdi_ist_get_value_addr')
+ANF: vhdi_set_scsd_callback('./simv: undefined symbol: vhdi_set_scsd_callback')
+ANF: vhdi_cbk_set_force_callback('./simv: undefined symbol: vhdi_cbk_set_force_callback')
+ANF: vhdi_trigger_init_force('./simv: undefined symbol: vhdi_trigger_init_force')
+ANF: vhdi_ist_check_scsd_callback('./simv: undefined symbol: vhdi_ist_check_scsd_callback')
+ANF: vhdi_ist_add_scsd_callback('./simv: undefined symbol: vhdi_ist_add_scsd_callback')
+ANF: vhdi_ist_remove_scsd_callback('./simv: undefined symbol: vhdi_ist_remove_scsd_callback')
+ANF: vhdi_ist_get_scsd_user_data('./simv: undefined symbol: vhdi_ist_get_scsd_user_data')
+ANF: vhdi_add_time_change_callback('./simv: undefined symbol: vhdi_add_time_change_callback')
+ANF: vhdi_get_real_value_by_value_addr('./simv: undefined symbol: vhdi_get_real_value_by_value_addr')
+ANF: vhdi_get_64_value_by_value_addr('./simv: undefined symbol: vhdi_get_64_value_by_value_addr')
+ANF: vhdi_xprop_inst_is_promoted('./simv: undefined symbol: vhdi_xprop_inst_is_promoted')
+ANF: vdi_ist_convert_by_vhdi('./simv: undefined symbol: vdi_ist_convert_by_vhdi')
+ANF: vhdi_ist_get_module_id('./simv: undefined symbol: vhdi_ist_get_module_id')
+ANF: vhdi_refine_foreign_scope_type('./simv: undefined symbol: vhdi_refine_foreign_scope_type')
+ANF: vhdi_flush_callback('./simv: undefined symbol: vhdi_flush_callback')
+ANF: vhdi_set_orig_name('./simv: undefined symbol: vhdi_set_orig_name')
+ANF: vhdi_set_dump_pt('./simv: undefined symbol: vhdi_set_dump_pt')
+ANF: vhdi_get_fsdb_option('./simv: undefined symbol: vhdi_get_fsdb_option')
+ANF: vhdi_fgp_get_mode('./simv: undefined symbol: vhdi_fgp_get_mode')
+ANF: vhdi_node_register_composite_var('./simv: undefined symbol: vhdi_node_register_composite_var')
+ANF: vhdi_node_analysis('./simv: undefined symbol: vhdi_node_analysis')
+ANF: vhdi_node_id('./simv: undefined symbol: vhdi_node_id')
+ANF: vhdi_node_ist_check_scsd_callback('./simv: undefined symbol: vhdi_node_ist_check_scsd_callback')
+ANF: vhdi_node_ist_add_scsd_callback('./simv: undefined symbol: vhdi_node_ist_add_scsd_callback')
+ANF: vhdi_node_ist_get_value_addr('./simv: undefined symbol: vhdi_node_ist_get_value_addr')
+ANF: vhdi_enc_def_traverse_module('./simv: undefined symbol: vhdi_enc_def_traverse_module')
+ANF: vhdi_enc_def_traverse_scope('./simv: undefined symbol: vhdi_enc_def_traverse_scope')
+ANF: vhdi_enc_def_traverse_variable('./simv: undefined symbol: vhdi_enc_def_traverse_variable')
+ANF: vhdi_enc_ist_traverse_scope('./simv: undefined symbol: vhdi_enc_ist_traverse_scope')
+ANF: vhdi_enc_ist_traverse_variable('./simv: undefined symbol: vhdi_enc_ist_traverse_variable')
+ANF: vhdi_enc_ist_get_module_id('./simv: undefined symbol: vhdi_enc_ist_get_module_id')
+ANF: vhdi_enc_def_get_handle_by_module_id('./simv: undefined symbol: vhdi_enc_def_get_handle_by_module_id')
+VCS compile option:
+ option[0]: ./simv
+ option[1]: -a
+ option[2]: vcs.log
+ option[3]: +fsdbfile+wavesmall.fsdb
+ option[4]: -cm_dir
+ option[5]: ./mem_covsmall
+ option[6]: +ntb_random_seed_automatic
+ option[7]: +UVM_TESTNAME=small_packet_test
+ option[8]: +DST_ADDR=0
+ option[9]: /home/cad/eda/SYNOPSYS/VCS/vcs/T-2022.06-SP1/linux64/bin/vcs1
+ option[10]: -Mcc=gcc
+ option[11]: -Mcplusplus=g++
+ option[12]: -Masflags=
+ option[13]: -Mcfl= -pipe -DVCS -DUVM_DPI_DO_TYPE_CHECK -fPIC -O -I/home/cad/eda/SYNOPSYS/VCS/vcs/T-2022.06-SP1/include 
+ option[14]: -Mxllcflags=
+ option[15]: -Mxcflags= -pipe -DVCS -DUVM_DPI_DO_TYPE_CHECK -fPIC -I/home/cad/eda/SYNOPSYS/VCS/vcs/T-2022.06-SP1/include
+ option[16]: -Mldflags= -rdynamic 
+ option[17]: -Mout=simv
+ option[18]: -Mamsrun=
+ option[19]: -Mvcsaceobjs=
+ option[20]: -Mobjects= /home/cad/eda/SYNOPSYS/VCS/vcs/T-2022.06-SP1/linux64/lib/libvirsim.so /home/cad/eda/SYNOPSYS/VCS/vcs/T-2022.06-SP1/linux64/lib/liberrorinf.so /home/cad/eda/SYNOPSYS/VCS/vcs/T-2022.06-SP1/linux64/lib/libsnpsmalloc.so /home/cad/eda/SYNOPSYS/VCS/vcs/T-2022.06-SP1/linux64/lib/libvfs.so /home/cad/eda/SYNOPSYS/VERDI_2022/verdi/T-2022.06-SP1/share/PLI/VCS/LINUX64/pli.a 
+ option[21]: -Mexternalobj=
+ option[22]: -Msaverestoreobj=/home/cad/eda/SYNOPSYS/VCS/vcs/T-2022.06-SP1/linux64/lib/vcs_save_restore_new.o
+ option[23]: -Mcrt0=
+ option[24]: -Mcrtn=
+ option[25]: -Mcsrc=/home/cad/eda/SYNOPSYS/VCS/vcs/T-2022.06-SP1/etc/uvm/dpi/uvm_dpi.cc /home/cad/eda/SYNOPSYS/VCS/vcs/T-2022.06-SP1/etc/uvm/verdi/dpi/uvm_verdi_dpi.cpp 
+ option[26]: -Msyslibs=/home/cad/eda/SYNOPSYS/VERDI_2022/verdi/T-2022.06-SP1/share/PLI/VCS/LINUX64/pli.a -ldl -lm 
+ option[27]: -l
+ option[28]: vcs.log
+ option[29]: +define+UVM_VERDI_VIF_RECORD
+ option[30]: +define+UVM_VCS_RECORD
+ option[31]: +incdir+/home/cad/eda/SYNOPSYS/VCS/vcs/T-2022.06-SP1/etc/uvm/vcs
+ option[32]: /home/cad/eda/SYNOPSYS/VCS/vcs/T-2022.06-SP1/etc/uvm/uvm_pkg.sv
+ option[33]: /home/cad/eda/SYNOPSYS/VCS/vcs/T-2022.06-SP1/etc/uvm/vcs/uvm_custom_install_vcs_recorder.sv
+ option[34]: +incdir+/home/cad/eda/SYNOPSYS/VCS/vcs/T-2022.06-SP1/etc/uvm/verdi
+ option[35]: /home/cad/eda/SYNOPSYS/VCS/vcs/T-2022.06-SP1/etc/uvm/verdi/uvm_custom_install_verdi_recorder.sv
+ option[36]: -timescale=1ns/1ps
+ option[37]: 
+ option[38]: 
+ option[39]: -cm
+ option[40]: line+tgl+fsm+branch+cond
+ option[41]: -ntb_opts
+ option[42]: uvm
+ option[43]: +incdir+/home/cad/eda/SYNOPSYS/VCS/vcs/T-2022.06-SP1/etc/uvm/
+ option[44]: -debug_access+all
+ option[45]: +vpi
+ option[46]: +vcsd1
+ option[47]: +itf+/home/cad/eda/SYNOPSYS/VCS/vcs/T-2022.06-SP1/linux64/lib/vcsdp_lite.tab
+ option[48]: -full64
+ option[49]: -kdb
+ option[50]: -Xufe=2steps
+ option[51]: -lca
+ option[52]: -P
+ option[53]: /home/cad/eda/SYNOPSYS/VERDI_2022/verdi/T-2022.06-SP1/share/PLI/VCS/LINUX64/novas.tab
+ option[54]: -picarchive
+ option[55]: -P
+ option[56]: /home/cad/eda/SYNOPSYS/VERDI_2022/verdi/T-2022.06-SP1/share/PLI/VCS/LINUX64/verdi.tab
+ option[57]: -fsdb
+ option[58]: -sverilog
+ option[59]: -gen_obj
+ option[60]: ../rtl/router_fifo.v
+ option[61]: ../rtl/router_fsm.v
+ option[62]: ../rtl/router_reg.v
+ option[63]: ../rtl/router_sync.v
+ option[64]: ../rtl/router_top.v
+ option[65]: ../intf/router_dst_intf.sv
+ option[66]: ../intf/router_src_intf.sv
+ option[67]: +incdir+../tb
+ option[68]: +incdir+../test
+ option[69]: +incdir+../src_agent
+ option[70]: +incdir+../dst_agent
+ option[71]: ../test/router_pkg.sv
+ option[72]: ../tb/top.sv
+ option[73]: +define+UVM_DIRECTC_OPTS
+ option[74]: -load
+ option[75]: /home/cad/eda/SYNOPSYS/VERDI_2022/verdi/T-2022.06-SP1/share/PLI/VCS/LINUX64/libnovas.so:FSDBDumpCmd
+ option[76]: timescale=1ns/1ps
+Chronologic Simulation VCS Release T-2022.06-SP1_Full64
+Linux 4.18.0-553.77.1.el8_10.x86_64 #1 SMP Fri Sep 19 03:36:32 EDT 2025 x86_64
+CPU cores: 24
+Limit information:
+======================================
+cputime		unlimited
+filesize		unlimited
+datasize		unlimited
+stacksize		8306 kbytes
+coredumpsize		0 kbytes
+memoryuse		unlimited
+vmemoryuse		unlimited
+descriptors		262144
+memorylocked		64 kbytes
+maxproc		1026926
+======================================
+(Special)Runtime environment variables:
+
+Runtime environment variables:
+SHELL=/bin/bash
+_=/usr/bin/make
+LICENSE_QUEUE=30
+HISTCONTROL=ignoredups
+SNPSLMD_LICENSE_FILE=27020@mavenserver-rh1:27021@mavenserver-RH2
+XDG_DATA_DIRS=/home1/VMPT58/FurquanA/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
+LESSOPEN=||/usr/bin/lesspipe.sh %s
+SSH_CONNECTION=10.81.234.140 59906 172.16.17.6 22
+PATH=/home/cad/eda/SYNOPSYS/VC_SPYGLASS_2022.06/vc_static/T-2022.06/bin:/home/cad/eda/SYNOPSYS/Design_compiler/syn/T-2022.03-SP4/bin:/home/cad/eda/SYNOPSYS/VERDI_2022/verdi/T-2022.06-SP1/bin:/home/cad/eda/SYNOPSYS/VCS/vcs/T-2022.06-SP1/bin:/home/cad/eda/Questa-sim/questasim/bin:/home/cad/eda/Questa-sim/questasim/bin:/home1/VMPT58/FurquanA/.local/bin:/home1/VMPT58/FurquanA/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/dell/srvadmin/bin
+SSH_TTY=/dev/pts/27
+XDG_RUNTIME_DIR=/run/user/7489
+SELINUX_USE_CURRENT_RANGE=
+LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=01;05;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=01;36:*.au=01;36:*.flac=01;36:*.m4a=01;36:*.mid=01;36:*.midi=01;36:*.mka=01;36:*.mp3=01;36:*.mpc=01;36:*.ogg=01;36:*.ra=01;36:*.wav=01;36:*.oga=01;36:*.opus=01;36:*.spx=01;36:*.xspf=01;36:
+DISPLAY=localhost:25.0
+which_declare=declare -f
+HOME=/home1/VMPT58/FurquanA
+VCS_HOME=/home/cad/eda/SYNOPSYS/VCS/vcs/T-2022.06-SP1
+PWD=/home1/VMPT58/FurquanA/router/sim
+VERDI_HOME=/home/cad/eda/SYNOPSYS/VERDI_2022/verdi/T-2022.06-SP1
+MGLS_LICENSE_FILE=1717@172.16.17.6:1717@172.16.17.5
+DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-LLTEgihBu2,guid=2a95ff884cc9907185af4a1568eb1808
+LD_LIBRARY_PATH=/usr/local/lib:/home/cad/eda/Questa-sim/questasim/bin:/home/cad/eda/Questa-sim/questasim/bin:/home1/VMPT58/FurquanA/.local/bin:/home1/VMPT58/FurquanA/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/dell/srvadmin/bin
+LOGNAME=FurquanA
+SELINUX_LEVEL_REQUESTED=
+HOSTNAME=mavenserver-RH2
+VCS_TARGET_ARCH=linux64
+SHLVL=1
+VC_SG_ELITE=1
+XDG_SESSION_ID=29477
+USER=FurquanA
+OLDPWD=/home1/VMPT58/FurquanA/router
+VC_STATIC_HOME=/home/cad/eda/SYNOPSYS/VC_SPYGLASS_2022.06/vc_static/T-2022.06
+MAKEFLAGS=
+MFLAGS=
+SSH_CLIENT=10.81.234.140 59906 22
+MAIL=/var/spool/mail/FurquanA
+GDK_BACKEND=x11
+MAKE_TERMOUT=/dev/pts/27
+BASH_FUNC_which%%=() {  ( alias;
+ eval ${which_declare} ) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot $@
+}
+S_COLORS=auto
+SELINUX_ROLE_REQUESTED=
+HISTSIZE=1000
+MAKE_TERMERR=/dev/pts/27
+SNPS_LINT_INTERNAL_SETUP_WIZARD=1
+LANG=en_IN.UTF-8
+TERM=xterm
+MAKELEVEL=1
+VCS_PATHMAP_PRELOAD_DONE=1
+VCS_STACK_EXEC=true
+VCS_EXEC_DONE=1
+LC_ALL=C
+DVE=/home/cad/eda/SYNOPSYS/VCS/vcs/T-2022.06-SP1/gui/dve
+SPECMAN_OUTPUT_TO_TTY=1
+FLEXLM_BORROWFILE=/home1/VMPT58/FurquanA/.mavenserver-RH2-borrow.txt
+Runtime command line arguments:
+argv[0]=./simv
+argv[1]=-a
+argv[2]=vcs.log
+argv[3]=+fsdbfile+wavesmall.fsdb
+argv[4]=-cm_dir
+argv[5]=./mem_covsmall
+argv[6]=+ntb_random_seed_automatic
+argv[7]=+UVM_TESTNAME=small_packet_test
+argv[8]=+DST_ADDR=0
+244 profile - 100
+          CPU/Mem usage: 0.040 sys,  0.340 user,  368.26M mem
+245 Elapsed time:    0:00:00    Sun Oct 12 09:01:23 2025
+246 User CPU time used: 0 seconds
+247 System CPU time used: 0 seconds
+248 pliAppInit
+249 [SC]Init: MemoryConsumed=0.00MB ElapsedTime=0hour 0min. 0sec.
+250 FSDB_GATE is set.
+251 FSDB_RTL is set.
+252 FSDB_ALIAS_ARRAY_ELEM is set to 4294967295.
+253 Enable Parallel Dumping.
+254 pliAppMiscSet: New Sim Round
+255 pliEntryInit
+256 LIBSSCORE=found /home/cad/eda/SYNOPSYS/VERDI_2022/verdi/T-2022.06-SP1/share/PLI/lib/LINUXAMD64/libsscore_vcs202206.so through $NOVAS_HOME setting.
+257 FSDB Dumper for VCS, Release Verdi_T-2022.06-SP1, Linux x86_64/64bit, 08/28/2022
+258 (C) 1996 - 2022 by Synopsys, Inc.
+259 DVDI_is_vir_unload_enabled is enable
+260 FSDB_VCS_ENABLE_NATIVE_VC is enable
+261 sps_call_fsdbDumpvars_vd_main at 0 : ../tb/top.sv(42)
+262 argv[0]: (0)
+263 argv[1]: (handle) top
+264 *Verdi* : Create FSDB file 'wavesmall.fsdb'
+265 [spi_vcs_vd_ppi_create_root]: no upf option
+266 compile option from '/home1/VMPT58/FurquanA/router/sim/simv.daidir/vcs_rebuild'.
+267   "vcs '-l' 'vcs.log' '-timescale=1ns/1ps' '-assert' 'svaext' '-cm' 'line+tgl+fsm+branch+cond' '-sverilog' '-ntb_opts' 'uvm' '-debug_access+all' '-full64' '-kdb' '-lca' '-P' '/home/cad/eda/SYNOPSYS/VERDI_2022/verdi/T-2022.06-SP1/share/PLI/VCS/LINUX64/novas.tab' '/home/cad/eda/SYNOPSYS/VERDI_2022/verdi/T-2022.06-SP1/share/PLI/VCS/LINUX64/pli.a' '../rtl/router_fifo.v' '../rtl/router_fsm.v' '../rtl/router_reg.v' '../rtl/router_sync.v' '../rtl/router_top.v' '../intf/router_dst_intf.sv' '../intf/router_src_intf.sv' '+incdir+../tb' '+incdir+../test' '+incdir+../src_agent' '+incdir+../dst_agent' '../test/router_pkg.sv' '../tb/top.sv' 2>&1"
+268 *Verdi* : Begin traversing the scope (top), layer (0).
+269 *Verdi* : End of traversing.
+270 pliAppHDL_DumpVarComplete traverse var: profile - 
+          CPU/Mem usage: 0.040 sys,  0.350 user,  469.09M mem
+                   incr: 0.000 sys,  0.010 user,  8.61M mem
+                   accu: 0.000 sys,  0.010 user,  8.61M mem
+              accu incr: 0.000 sys,  0.010 user,  8.61M mem
+
+          Count usage: 191 var,  138 idcode,  87 callback
+                 incr: 191 var,  138 idcode,  87 callback
+                 accu: 191 var,  138 idcode,  87 callback
+            accu incr: 191 var,  138 idcode,  87 callback
+271 Elapsed time:    0:00:00    Sun Oct 12 09:01:23 2025
+272 User CPU time used: 0 seconds
+273 System CPU time used: 0 seconds
+274 pliAppHDL_DumpVarComplete: profile - 
+          CPU/Mem usage: 0.040 sys,  0.350 user,  470.14M mem
+                   incr: 0.000 sys,  0.000 user,  1.05M mem
+                   accu: 0.000 sys,  0.010 user,  9.66M mem
+              accu incr: 0.000 sys,  0.000 user,  1.05M mem
+
+          Count usage: 191 var,  138 idcode,  87 callback
+                 incr: 0 var,  0 idcode,  0 callback
+                 accu: 191 var,  138 idcode,  87 callback
+            accu incr: 0 var,  0 idcode,  0 callback
+275 Elapsed time:    0:00:00    Sun Oct 12 09:01:23 2025
+276 User CPU time used: 0 seconds
+277 System CPU time used: 0 seconds
+278 End of simulation at 390000
+279 Memory usage: 471.446 M
+280 Maximum resident set size: 171 MB
+281 Hard page faults: 0
+282 Soft page faults: 18338
+283 Elapsed time:    0:00:00    Sun Oct 12 09:01:23 2025
+284 User CPU time used: 0 seconds
+285 System CPU time used: 0 seconds
+286 Begin FSDB profile info:
+287 FSDB Writer : bc1(320) bcn(169) mtf/stf(0/0)
+FSDB Writer elapsed time : flush(0.090255) io wait(0.000000) theadpool wait(0.000000)
+FSDB Writer cpu time : MT Compression : 0
+288 End FSDB profile info
+289 FSDB closed. Name: wavesmall.fsdb Size: 14094
+290 Parallel profile     - ProducerThread:1 ConsumerThread:1 Buffer:64MB
+291                      - BlockUsed:1 Acquire:453 BufferUsed:5352
+292                      - Flush:2 Expand:0 ProducerWait:0 ConsumerWait:0
+293                      - MainProducerTime:0.443300247 TotalConsumerTime:0.000000000
+294                      - ElapsedTime:0.230276000
+295 Producer   0 profile - BlockUsed:1 Acquire:453 BufferUsed:5352
+296 Consumer   0 profile - Affinity:-1 CPUTime:0.000000000 LifeTime:0.000000000 (-nan%)
+297                      - BlockUsed:1 Acquire:453 BufferUsed:5352
+298 SimExit
+299 Elapsed time:    0:00:00    Sun Oct 12 09:01:23 2025
+300 User CPU time used: 0 seconds
+301 System CPU time used: 0 seconds
+302 Sim process exit

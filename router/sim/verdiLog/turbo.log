@@ -1,0 +1,3 @@
+Command Line: /home/cad/eda/SYNOPSYS/VERDI_2022/verdi/T-2022.06-SP1/platform/LINUXAMD64/bin/Novas -ssf wavesmall.fsdb
+uname(Linux mavenserver-RH2 4.18.0-553.77.1.el8_10.x86_64 #1 SMP Fri Sep 19 03:36:32 EDT 2025 x86_64)
+au time 406.268082 0.032923 0.027509 delta 24047616 24047616 total 551714816 551714816

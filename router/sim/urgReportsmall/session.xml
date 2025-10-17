@@ -1,0 +1,29 @@
+<session version="1.1" release="T-2022.06-SP1" timestp="2025-10-12 03:31:23 GMT">
+  <info>
+    <attr name="datetime" value="Sun Oct 12 09:01:24 2025
+"/>
+    <attr name="command" value="urg -dir mem_covsmall.vdb -format both -report urgReportsmall"/>
+  </info>
+  <hvp>
+    <datadef>
+      <metdef name="Group" type="percent" aggregator="average" builtin="1" />
+    </datadef>
+  </hvp>
+  <old_coverage>
+  <scope type="top" name="top">
+    <metric name="Group" value="27.7778%" />
+  </scope>
+  <scope type="instance" name="top">
+  </scope>
+  <scope type="group" name="top">
+    <scope type="group" name="router_pkg::router_scoreboard::dst_covgrp">
+      <metric name="Group" value="16.6667%" />
+    </scope>
+    <scope type="group" name="router_pkg::router_scoreboard::src_covgrp">
+      <metric name="Group" value="38.8889%" />
+    </scope>
+  </scope>
+  <scope type="assert" name="Statistics">
+  </scope>
+  </old_coverage>
+</session>

@@ -1,0 +1,13 @@
+Testbench Group List
+
+Total Groups Coverage Summary 
+SCORE  WEIGHT 
+ 27.78 1      
+
+
+Total groups in report: 2
+-------------------------------------------------------------------------------
+SCORE  WEIGHT GOAL   AT LEAST PER INSTANCE AUTO BIN MAX PRINT MISSING COMMENT NAME                                      
+ 16.67 1      100    1        0            64           64                    router_pkg::router_scoreboard::dst_covgrp 
+ 38.89 1      100    1        0            64           64                    router_pkg::router_scoreboard::src_covgrp 
+
